@@ -2,11 +2,14 @@
 
 USE pokemonDB;
 
-/* drop table Owners;
-drop table Pokemon;
-drop table Types;
-drop table Trainer;
-drop table Towns; */
+USE pokemondb;
+CREATE TABLE PokemonTypes
+(
+    id_pokemon INT NOT NULL,
+    name_Type  VARCHAR(20) NOT NULL,
+    FOREIGN KEY(id_pokemon) REFERENCES Pokemon(id),
+    PRIMARY KEY (id_pokemon,name_Type)
+);
 
 
 CREATE TABLE Types
@@ -65,5 +68,9 @@ create table id_counters
 
 insert into id_counters(trainer_counter, town_counter, type_counter) values (0,0,0);
 
-
+create or replace VIEW powners AS 
+select id_pokemon,Pokemon.name, count(Owners.id_pokemon) 
+from Pokemon join Owners 
+on Pokemon.id = Owners.id_pokemon
+group by id_pokemon
 
